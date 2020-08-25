@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:chatApp/enum/user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image/image.dart' as Im;
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Utils {
@@ -12,6 +12,12 @@ class Utils {
 
   static String getUsername(String email) {
     return "live:${email.split('@')[0]}";
+  }
+
+  static String formatDateString(String dateString) {
+    DateTime dateTime = DateTime.parse(dateString);
+    var formater = DateFormat('dd//MM//yy');
+    return formater.format(dateTime);
   }
 
   static String getInitals(String name) {
@@ -34,11 +40,9 @@ class Utils {
 
     int random = Random().nextInt(10000);
 
-    Im.Image image = Im.decodeImage(imageToCompress.readAsBytesSync());
-    Im.copyResize(image, width: 500, height: 500);
+    var image = imageToCompress.readAsBytesSync();
 
-    return new File("$path/image_$random.jpg")
-      ..writeAsBytesSync(Im.encodeJpg(image, quality: 95));
+    return new File("$path/image_$random.jpg")..writeAsBytesSync(image);
   }
 
   static int stateToNum(UserState userState) {

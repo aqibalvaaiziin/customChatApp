@@ -1,4 +1,4 @@
-
+import 'package:chatApp/db/log_repository.dart';
 import 'package:chatApp/enum/user_state.dart';
 import 'package:chatApp/provider/user_provider.dart';
 import 'package:chatApp/resources/auth_methods.dart';
@@ -74,10 +74,12 @@ abstract class HomePageViewModel extends State<HomePage>
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       userProvider = Provider.of<UserProvider>(context, listen: false);
       await userProvider.refreshUser();
+
       _authMethods.setUsersState(
         userId: userProvider.getUser.uid,
         userState: UserState.Online,
       );
+      LogRepository.init(isHive: true, dbName: userProvider.getUser.uid);
     });
     pageController = PageController();
     WidgetsBinding.instance.addObserver(this);

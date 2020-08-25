@@ -1,4 +1,4 @@
-
+import 'package:chatApp/helper/const_config.dart';
 import 'package:chatApp/helper/permission.dart';
 import 'package:chatApp/screen/pickup_page/widgets/call_screen.dart';
 import 'package:chatApp/widgets/chaced_data_image.dart';
@@ -55,28 +55,34 @@ class PickupPageView extends PickupPageViewModel {
                     ),
                   ),
                   onTap: () async {
+                    isCallMissed = true;
                     await callMethods.endCall(call: widget.call);
                   },
                 ),
                 SizedBox(width: 25),
                 InkWell(
-                  child: Container(
-                      width: 50,
-                      height: 50,
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.call,
-                        color: Colors.white,
-                      )),
-                  onTap: () async =>
+                    child: Container(
+                        width: 50,
+                        height: 50,
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.call,
+                          color: Colors.white,
+                        )),
+                    onTap: () async {
+                      isCallMissed = false;
+
+                      addToLocalStorage(callStatus: CALL_STATUS_RECEIVED);
+
                       await Permissions.cameraAndMicrophonePermissionsGranted()
                           ? nextScreen(context, CallScreen(call: widget.call))
-                          : {},
-                )
+                          // ignore: unnecessary_statements
+                          : () {};
+                    })
               ],
             )
           ],

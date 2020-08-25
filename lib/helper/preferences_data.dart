@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PreferencesData {
   Future setUserLogin(FirebaseUser user) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-     String username = Utils.getUsername(user.email);
+    String username = Utils.getUsername(user.email);
     sp.setString("id", user.uid);
     sp.setString("name", user.displayName);
     sp.setString("email", user.email);
